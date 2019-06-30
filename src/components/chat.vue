@@ -4,7 +4,7 @@
             <p class="channelNumberInHead"> Channel: {{ this.$store.getters.CHANNELID }} </p>
         </div>
         <div class="chat-window" >
-            <div class="getError" v-if="errored">
+            <div class="getError" v-if="this.$store.getters.ERRORED">
                 <p class="error">We're sorry, we're not able to retrieve this information at the moment, please try back later</p>
             </div>
             <div v-for="item in infoList">
@@ -27,7 +27,6 @@
         name: "chat",
         data() {
             return {
-                errored: false, //Отображение ошибки в чате, в зависимости от полученного true/false из хранилища (GET)
                 msg: '',
                 bubble1: 'chat_bubble1',
                 bubble2: 'chat_bubble2',

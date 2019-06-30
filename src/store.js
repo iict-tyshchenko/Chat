@@ -13,9 +13,13 @@ export const store = new Vuex.Store({
         email: '',
         channelId: '1',
         info: null,
-        showModal: true
+        showModal: true,
+        errored: false
     },
     mutations: {
+        set_errored: (state, payload) =>{
+            state.errored = payload
+        },
         set_showModal: (state, payload) =>{
             state.showModal = payload
         },
@@ -30,6 +34,9 @@ export const store = new Vuex.Store({
         },
     },
     getters: {
+        ERRORED: state => {
+            return state.errored
+        },
         SHOWMODAL: state => {
           return state.showModal
         },
@@ -52,7 +59,7 @@ export const store = new Vuex.Store({
                 })
                 .catch(error => {
                     console.log(error)
-                    chat.errored = true //Для отображения ошибки в самом чате
+                    context.commit('set_errored', true)
                 });
             context.commit('SET_INFO', payload)
         },
