@@ -1,28 +1,40 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <Modal/>
+    <Menu/>
+    <Chat/>
+    <!--<img alt="Vue logo" src="./assets/logo.png">
+    <HelloWorld msg="Welcome to Your Vue.js App"/>-->
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import Modal from './components/modal.vue'
+import Menu from './components/menu.vue'
+import Chat from './components/chat.vue'
 
 export default {
   name: 'app',
   components: {
-    HelloWorld
+    Modal,
+    Menu,
+    Chat
   }
 }
 </script>
 
 <style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
+  @import url('https://fonts.googleapis.com/css?family=Roboto:500,700&display=swap&subset=cyrillic');
+
+ #app {
+    margin: 0;
+    display: grid;
+    grid-template-columns: 250px 1fr;
+    grid-template-rows: 1fr;
+    background-color: #D9D9D9 !important;
+    grid-column-gap: 2px;
+  }
+
+  ::-webkit-scrollbar{width:0px}
+  ::-webkit-scrollbar-thumb{border-radius:4px;-webkit-box-shadow:inset 0 0 0 0px #074AA2;}
 </style>
