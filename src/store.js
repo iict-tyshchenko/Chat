@@ -1,0 +1,68 @@
+import Vue from 'vue'
+import Vuex from 'vuex'
+
+Vue.use(Vuex)
+const axios = require('axios');
+
+const BASE_URI = "http://gitlab.nii-ikt.ru:30080"
+const GET_MSG_URI = `${BASE_URI}/msg_get`
+const SEND_MSG_URI = `${BASE_URI}/msg_post`
+
+export const store = new Vuex.Store({
+    state: {
+        email: '',
+        channelId: '1',
+        info: null,
+        showModal: true
+    },
+    mutations: {
+        set_showModal: (state, payload) =>{
+            state.showModal = payload
+        },
+        set_email: (state, payload) => {
+            state.email = payload
+        },
+        set_channelId: (state, payload) => {
+            state.channelId = payload
+        },
+        SET_INFO: (state, payload) => {
+            state.info = payload
+        },
+    },
+    getters: {
+        SHOWMODAL: state => {
+          return state.showModal
+        },
+        EMAIL: state => {
+            return state.email
+        },
+        CHANNELID: state => {
+            return state.channelId
+        },
+        INFO: state => {
+            return state.info
+        },
+    },
+    actions: {
+        GET_INFO: async (context, payload) => { //Получение сообщения
+            await axios
+                .get(`${GET_MSG_URI}?type=0&channel_id=${store.getters.CHANNELID}`)
+                .then(response => {
+                    payload = response.data
+                })
+                .catch(error => {
+                    console.log(error)
+                    chat.errored = true //Для отображения ошибки в самом чате
+                });
+            context.commit('SET_INFO', payload)
+        },
+        SEND_INFO: async (context, sendInfo) => { //Отправка сообщения
+            await axios
+                .post(`${SEND_MSG_URI}`, sendInfo)
+                .catch(error => {
+                    console.log(error)
+                });
+            store.dispatch('GET_INFO')
+        },
+    }
+});
