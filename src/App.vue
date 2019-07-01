@@ -24,7 +24,6 @@ export default {
 </script>
 
 <style>
-  @import url('https://fonts.googleapis.com/css?family=Roboto:500,700&display=swap&subset=cyrillic');
 
  #app {
     margin: 0;

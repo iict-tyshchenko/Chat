@@ -2,7 +2,6 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 
 Vue.use(Vuex)
-const axios = require('axios');
 
 const BASE_URI = "http://gitlab.nii-ikt.ru:30080"
 const GET_MSG_URI = `${BASE_URI}/msg_get`
@@ -29,7 +28,7 @@ export const store = new Vuex.Store({
         set_channelId: (state, payload) => {
             state.channelId = payload
         },
-        SET_INFO: (state, payload) => {
+        set_info: (state, payload) => {
             state.info = payload
         },
     },
@@ -61,7 +60,7 @@ export const store = new Vuex.Store({
                     console.log(error)
                     context.commit('set_errored', true)
                 });
-            context.commit('SET_INFO', payload)
+            context.commit('set_info', payload)
         },
         SEND_INFO: async (context, sendInfo) => { //Отправка сообщения
             await axios

@@ -45,7 +45,6 @@
         methods:{
             exit: function(){
                 this.$store.commit('set_showModal', true)
-                /*modal.showModal = true;*/
             },
             reSelectChannel: function(number){
                 this.$store.commit('set_channelId', number)

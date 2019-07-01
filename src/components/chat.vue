@@ -11,7 +11,7 @@
                 <div :class="[item.login === $store.state.email ?  bubble1 : bubble2]" >
                     <div class="login" >{{ item.login }}:</div>
                     {{ item.message }}
-                    <div class="time"> {{ item.date }} </div>
+                    <div class="time"> {{ item.date | format}} </div>
                 </div>
             </div>
         </div>
@@ -23,6 +23,9 @@
 </template>
 
 <script>
+
+    import moment from 'moment'
+
     export default {
         name: "chat",
         data() {
@@ -32,6 +35,13 @@
                 bubble2: 'chat_bubble2',
             }
         },
+        filters: {
+            format: function(value) {
+                if (value) {
+                    return moment(String(value)).format('hh:mm MM/DD/YYYY')
+                }
+            }
+        },
         methods: {
             send: function(e){ //Собирает информацию и отправляет в хранилище
                 const sendInfo = {
@@ -39,8 +49,8 @@
                     channel_id: this.$store.getters.CHANNELID,
                     message: this.msg
                 };
-                if(!this.msg){ //Если поле ввода не заполненно, вернуть ошибку
-                    console.log('Error: message not found')
+                if(!this.msg || !this.$store.getters.EMAIL || !this.$store.getters.CHANNELID){ //проверяем наличие данных
+                    console.log('Error: message/email not found')
                     e.preventDefault()
                 }else{ //Иначе отправляем данные в SEND_INFO
                     this.$store.dispatch('SEND_INFO', sendInfo)
