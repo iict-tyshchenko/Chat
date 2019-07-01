@@ -3,11 +3,11 @@
         <div class="chat-head">
             <p class="channelNumberInHead"> Channel: {{ this.$store.getters.CHANNELID }} </p>
         </div>
-        <div class="chat-window" >
+        <div class="chat-window" id="chat-window">
             <div class="getError" v-if="this.$store.getters.ERRORED">
                 <p class="error">We're sorry, we're not able to retrieve this information at the moment, please try back later</p>
             </div>
-            <div v-for="item in infoList">
+            <div v-for="item in infoList" >
                 <div :class="[item.login === $store.state.email ?  bubble1 : bubble2]" >
                     <div class="login" >{{ item.login }}:</div>
                     {{ item.message }}
@@ -23,7 +23,6 @@
 </template>
 
 <script>
-
     import moment from 'moment'
 
     export default {
@@ -38,7 +37,7 @@
         filters: {
             format: function(value) {
                 if (value) {
-                    return moment(String(value)).format('hh:mm MM/DD/YYYY')
+                    return moment(String(value)).format('hh:mm a MM/DD/YYYY')
                 }
             }
         },
@@ -52,13 +51,19 @@
                 if(!this.msg || !this.$store.getters.EMAIL || !this.$store.getters.CHANNELID){ //проверяем наличие данных
                     console.log('Error: message/email not found')
                     e.preventDefault()
+                    this.scrollToEnd()
                 }else{ //Иначе отправляем данные в SEND_INFO
                     this.$store.dispatch('SEND_INFO', sendInfo)
                     console.log(sendInfo)
                     this.msg = '' //Очищаем поле после отправки сообщения
                     e.preventDefault()
+                    this.scrollToEnd()
                 }
                 e.preventDefault()
+            },
+            scrollToEnd: function() {
+                const window = this.$el.querySelector("#chat-window");
+                window.scrollTop = window.scrollHeight;
             }
         },
         computed: {
@@ -70,6 +75,7 @@
             this.$store.dispatch('GET_INFO')
         },
     }
+
 </script>
 
 <style>
