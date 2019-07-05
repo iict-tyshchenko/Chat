@@ -9,9 +9,10 @@ const SEND_MSG_URI = `${BASE_URI}/msg_post`
 
 export const store = new Vuex.Store({
     state: {
-        email: 'email@email.com',
+        email: 'email2@email.com',
         channelId: '1',
         info: [],
+        lastMsgId: '',
         showModal: false,
         errored: false,
     },
@@ -34,6 +35,9 @@ export const store = new Vuex.Store({
         set_msg: (state, payload) => {
             const infoMas = state.info
             infoMas.push(payload)
+        },
+        set_lastMsgId: (state, payload) => {
+            state.lastMsgId = payload
         }
     },
     getters: {
@@ -52,9 +56,13 @@ export const store = new Vuex.Store({
         INFO: state => {
             return state.info
         },
+        LASTMSGID: state => {
+            return state.lastMsgId
+        }
     },
     actions: {
-        GET_INFO: async (context, payload) => { //Получение сообщения
+        //Получение последних 20 сбщ при авторизации
+        GET_INFO: async (context, payload) => {
             await axios
                 .get(`${GET_MSG_URI}?type=0&channel_id=${store.getters.CHANNELID}`)
                 .then(response => {
@@ -66,7 +74,23 @@ export const store = new Vuex.Store({
                 });
             context.commit('set_info', payload)
         },
-        SEND_INFO: async (context, sendInfo) => { //Отправка сообщения
+        //id последнего сообщения
+        GET_LAST_ID: async (context, payload) => {
+            await axios
+            .get(`${GET_MSG_URI}?type=0&channel_id=${store.getters.CHANNELID}`)
+                .then(response => {
+                    const msgs = response.data
+                    const lastInMsgs = msgs.length - 1
+                    const lastMsg = msgs[lastInMsgs]
+                    payload = lastMsg.id
+                })
+                .catch(error => {
+                    console.log(error)
+                });
+            context.commit('set_lastMsgId', payload)
+        },
+
+        SEND_INFO: async (context, sendInfo) => {
             await axios
                 .post(`${SEND_MSG_URI}`, sendInfo)
                 .catch(error => {

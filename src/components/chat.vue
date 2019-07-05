@@ -54,7 +54,6 @@
                     login: this.$store.getters.EMAIL,
                     channel_id: this.setChannel(),
                     message: this.msg,
-                    date: moment().format('YYYY-MM-DDTHH:mm:ss.SSS') //дату, как я понимаю, поменять мы не можем
                 };
                 if(!this.msg || !this.$store.getters.EMAIL || !this.$store.getters.CHANNELID){
                     console.log('Error: message/email not found')
