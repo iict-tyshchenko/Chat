@@ -31,6 +31,10 @@ export const store = new Vuex.Store({
         set_info: (state, payload) => {
             state.info = payload
         },
+        set_msg: (state, payload) => {
+            const infoMas = state.info
+            infoMas.push(payload)
+        }
     },
     getters: {
         ERRORED: state => {
@@ -68,7 +72,6 @@ export const store = new Vuex.Store({
                 .catch(error => {
                     console.log(error)
                 });
-            store.dispatch('GET_INFO')
         },
     }
 });
