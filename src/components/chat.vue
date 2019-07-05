@@ -60,10 +60,10 @@
                     console.log('Error: message/email not found')
                     e.preventDefault()
                     this.scrollToEnd()
-                }else{ //Иначе отправляем данные в SEND_INFO
+                }else{
                     this.$store.dispatch('SEND_INFO', sendInfo)
                     console.log(sendInfo)
-                    this.msg = '' //Очищаем поле после отправки сообщения
+                    this.msg = ''
                     e.preventDefault()
                     this.scrollToEnd()
                 }
