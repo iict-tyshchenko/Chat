@@ -89,7 +89,6 @@ export const store = new Vuex.Store({
                 });
             context.commit('set_lastMsgId', payload)
         },
-
         SEND_INFO: async (context, sendInfo) => {
             await axios
                 .post(`${SEND_MSG_URI}`, sendInfo)
