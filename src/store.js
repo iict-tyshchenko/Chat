@@ -9,11 +9,11 @@ const SEND_MSG_URI = `${BASE_URI}/msg_post`
 
 export const store = new Vuex.Store({
     state: {
-        email: '',
+        email: 'email@email.com',
         channelId: '1',
-        info: null,
-        showModal: true,
-        errored: false
+        info: [],
+        showModal: false,
+        errored: false,
     },
     mutations: {
         set_errored: (state, payload) =>{

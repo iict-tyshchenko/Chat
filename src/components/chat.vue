@@ -1,7 +1,7 @@
 <template>
     <div class="chat" id="chat">
         <div class="chat-head">
-            <p class="channelNumberInHead"> Channel: {{ channelInHead() }} </p> <!--наверно, так лучше, чем вызывать напрямую из store. не уверен корректно ли вызывать метод таким образом.-->
+            <p class="channelNumberInHead"> Channel: {{ setChannel() }} </p> <!--наверно, так лучше, чем вызывать напрямую из store. не уверен корректно ли вызывать метод таким образом.-->
         </div>
         <div class="chat-window" id="chat-window">
             <div class="getError" v-if="erroredInChat()">
@@ -46,16 +46,17 @@
             erroredInChat(){
                 return this.$store.getters.ERRORED
             },
-            channelInHead(){
+            setChannel(){
                 return this.$store.getters.CHANNELID
             },
-            send(e){ //Собирает информацию и отправляет в хранилище
+            send(e){
                 const sendInfo = {
                     login: this.$store.getters.EMAIL,
-                    channel_id: this.$store.getters.CHANNELID,
-                    message: this.msg
+                    channel_id: this.setChannel(),
+                    message: this.msg,
+                    date: moment().format('YYYY-MM-DDTHH:mm:ss.SSS') //дату, как я понимаю, поменять мы не можем
                 };
-                if(!this.msg || !this.$store.getters.EMAIL || !this.$store.getters.CHANNELID){ //проверяем наличие данных
+                if(!this.msg || !this.$store.getters.EMAIL || !this.$store.getters.CHANNELID){
                     console.log('Error: message/email not found')
                     e.preventDefault()
                     this.scrollToEnd()
