@@ -68,7 +68,7 @@
             }
         },
         methods:{
-            checkForm:function(i) {
+            checkForm(i) {
                 this.label = '';
                 this.errors = [];
                 if(!this.email) {
@@ -83,7 +83,7 @@
                 }
                 i.preventDefault();
             },
-            validEmail:function(email) {
+            validEmail(email) {
                 var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
                 return re.test(email)
             }

@@ -43,16 +43,16 @@
             }
         },
         methods:{
-            exit: function(){
+            exit(){
                 this.$store.commit('set_showModal', true)
             },
-            reSelectChannel: function(number){
+            reSelectChannel(number){
                 this.$store.commit('set_channelId', number)
                 this.$store.dispatch('GET_INFO')
             }
         },
         computed:{
-            filteredList: function(){ //поиск чата в меню
+            filteredList(){ //поиск чата в меню
                 var comp = this.number;
                 return this.channels.filter(function (elem) {
                     let el = elem.number.toLowerCase();

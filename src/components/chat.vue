@@ -4,7 +4,7 @@
             <p class="channelNumberInHead"> Channel: {{ channelInHead() }} </p> <!--наверно, так лучше, чем вызывать напрямую из store. не уверен корректно ли вызывать метод таким образом.-->
         </div>
         <div class="chat-window" id="chat-window">
-            <div class="getError" v-if="this.$store.getters.ERRORED">
+            <div class="getError" v-if="erroredInChat()">
                 <p class="error">We're sorry, we're not able to retrieve this information at the moment, please try back later</p>
             </div>
             <div v-for="item in infoList" >
@@ -43,10 +43,13 @@
             }
         },
         methods: {
-            channelInHead: function(){
+            erroredInChat(){
+                return this.$store.getters.ERRORED
+            },
+            channelInHead(){
                 return this.$store.getters.CHANNELID
             },
-            send: function(e){ //Собирает информацию и отправляет в хранилище
+            send(e){ //Собирает информацию и отправляет в хранилище
                 const sendInfo = {
                     login: this.$store.getters.EMAIL,
                     channel_id: this.$store.getters.CHANNELID,
@@ -65,7 +68,7 @@
                 }
                 e.preventDefault()
             },
-            scrollToEnd: function() {
+            scrollToEnd() {
                 const window = this.$el.querySelector("#chat-window");
                 window.scrollTop = window.scrollHeight;
             }
