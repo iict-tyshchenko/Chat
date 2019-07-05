@@ -1,7 +1,7 @@
 <template>
     <div class="chat" id="chat">
         <div class="chat-head">
-            <p class="channelNumberInHead"> Channel: {{ this.$store.getters.CHANNELID }} </p>
+            <p class="channelNumberInHead"> Channel: {{ channelInHead() }} </p> <!--наверно, так лучше, чем вызывать напрямую из store. не уверен корректно ли вызывать метод таким образом.-->
         </div>
         <div class="chat-window" id="chat-window">
             <div class="getError" v-if="this.$store.getters.ERRORED">
@@ -37,11 +37,15 @@
         filters: {
             format: function(value) {
                 if (value) {
-                    return moment(String(value)).format('hh:mm a MM/DD/YYYY')
+                    moment.locale('ru');
+                    return moment(String(value)).format('LT l')
                 }
             }
         },
         methods: {
+            channelInHead: function(){
+                return this.$store.getters.CHANNELID
+            },
             send: function(e){ //Собирает информацию и отправляет в хранилище
                 const sendInfo = {
                     login: this.$store.getters.EMAIL,
