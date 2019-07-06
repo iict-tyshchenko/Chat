@@ -32,12 +32,11 @@ export const store = new Vuex.Store({
         set_info: (state, payload) => {
             state.info = payload
         },
-        set_msg: (state, payload) => {
-            const infoMas = state.info
-            infoMas.push(payload)
-        },
         set_lastMsgId: (state, payload) => {
             state.lastMsgId = payload
+        },
+        set_loadingMsg: (state, payload) => {
+            state.info = payload
         }
     },
     getters: {
@@ -58,7 +57,7 @@ export const store = new Vuex.Store({
         },
         LASTMSGID: state => {
             return state.lastMsgId
-        }
+        },
     },
     actions: {
         //Получение последних 20 сбщ при авторизации
@@ -67,27 +66,47 @@ export const store = new Vuex.Store({
                 .get(`${GET_MSG_URI}?type=0&channel_id=${store.getters.CHANNELID}`)
                 .then(response => {
                     payload = response.data
+                    console.log(payload)
                 })
                 .catch(error => {
-                    console.log(error)
+                    console.log('Get info:', error)
                     context.commit('set_errored', true)
                 });
             context.commit('set_info', payload)
+
+            var timer = setInterval(function() {
+                store.dispatch('LAST_ID')
+                store.dispatch('LOADING_MSG')
+            }, 5000);
         },
-        //id последнего сообщения
-        GET_LAST_ID: async (context, payload) => {
+
+        LOADING_MSG: async (context, payload) => {
             await axios
-            .get(`${GET_MSG_URI}?type=0&channel_id=${store.getters.CHANNELID}`)
-                .then(response => {
-                    const msgs = response.data
-                    const lastInMsgs = msgs.length - 1
-                    const lastMsg = msgs[lastInMsgs]
-                    payload = lastMsg.id
+                .get(`${GET_MSG_URI}?type=1&channel_id=${store.getters.CHANNELID}&start=${store.getters.LASTMSGID}`)
+                .then(response =>{
+                    payload = response.data
+                    const info = payload
+                    if (info.length === undefined){
+                        console.log('empty')
+                    }else{
+                        console.log('not empty:', payload)
+                        let oldInfo = store.getters.INFO
+                        let newInfo = oldInfo.concat(payload)
+                        context.commit('set_info', newInfo)
+                    }
                 })
                 .catch(error => {
-                    console.log(error)
+                    console.log('LOADING MSG:', error)
                 });
-            context.commit('set_lastMsgId', payload)
+
+            },
+        LAST_ID (context, payload){
+                const   msgs = store.getters.INFO,
+                        lastInMsgs = msgs.length - 1,
+                        lastMsg = msgs[lastInMsgs]
+                payload = lastMsg.id
+                context.commit('set_lastMsgId', payload)
+                console.log(payload)
         },
         SEND_INFO: async (context, sendInfo) => {
             await axios
