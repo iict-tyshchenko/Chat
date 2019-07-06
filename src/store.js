@@ -7,12 +7,18 @@ const BASE_URI = "http://gitlab.nii-ikt.ru:30080"
 const GET_MSG_URI = `${BASE_URI}/msg_get`
 const SEND_MSG_URI = `${BASE_URI}/msg_post`
 
+window.onload = function() {
+    var timer = setInterval(function() {
+        store.dispatch('LOADING_MSG')
+    }, 5000);
+};
+
 export const store = new Vuex.Store({
     state: {
         email: 'email@email.com',
         channelId: '1',
         info: [],
-        lastMsgId: '',
+        lastMsgId: '123123123',
         showModal: false,
         errored: false,
     },
@@ -35,9 +41,6 @@ export const store = new Vuex.Store({
         set_lastMsgId: (state, payload) => {
             state.lastMsgId = payload
         },
-        set_loadingMsg: (state, payload) => {
-            state.info = payload
-        }
     },
     getters: {
         ERRORED: state => {
@@ -73,14 +76,9 @@ export const store = new Vuex.Store({
                     context.commit('set_errored', true)
                 });
             context.commit('set_info', payload)
-
             store.dispatch('LAST_ID')
-
-            var timer = setInterval(function() {
-                store.dispatch('LOADING_MSG')
-            }, 5000);
         },
-
+        //подгрузка сообщений
         LOADING_MSG: async (context, payload) => {
             await axios
                 .get(`${GET_MSG_URI}?type=1&channel_id=${store.getters.CHANNELID}&start=${store.getters.LASTMSGID}`)
@@ -101,14 +99,15 @@ export const store = new Vuex.Store({
                     console.log('LOADING MSG:', error)
                 });
             },
+        //получаем id последнего сообщения в store.info
         LAST_ID (context, payload){
                 const   msgs = store.getters.INFO,
                         lastInMsgs = msgs.length - 1,
                         lastMsg = msgs[lastInMsgs]
                 payload = lastMsg.id
                 context.commit('set_lastMsgId', payload)
-                console.log(payload)
         },
+        //отправка сообщения
         SEND_INFO: async (context, sendInfo) => {
             await axios
                 .post(`${SEND_MSG_URI}`, sendInfo)
