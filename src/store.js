@@ -9,7 +9,7 @@ const SEND_MSG_URI = `${BASE_URI}/msg_post`
 
 export const store = new Vuex.Store({
     state: {
-        email: 'email2@email.com',
+        email: 'email@email.com',
         channelId: '1',
         info: [],
         lastMsgId: '',
@@ -74,8 +74,9 @@ export const store = new Vuex.Store({
                 });
             context.commit('set_info', payload)
 
+            store.dispatch('LAST_ID')
+
             var timer = setInterval(function() {
-                store.dispatch('LAST_ID')
                 store.dispatch('LOADING_MSG')
             }, 5000);
         },
@@ -93,12 +94,12 @@ export const store = new Vuex.Store({
                         let oldInfo = store.getters.INFO
                         let newInfo = oldInfo.concat(payload)
                         context.commit('set_info', newInfo)
+                        store.dispatch('LAST_ID')
                     }
                 })
                 .catch(error => {
                     console.log('LOADING MSG:', error)
                 });
-
             },
         LAST_ID (context, payload){
                 const   msgs = store.getters.INFO,
