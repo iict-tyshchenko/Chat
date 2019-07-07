@@ -56,9 +56,11 @@ export const store = new Vuex.Store({
             return state.lastMsgId
         },
     },
+    //вызов таймера подгрузки сообщений, после создания экземпляра
     created: {
-        timer: setInterval(function() {
-            store.dispatch('LOADING_MSG')
+        timer: setTimeout(function loading() {
+            if (store.getters.LASTMSGID > 0) store.dispatch('LOADING_MSG');
+            timer: setTimeout(loading, 5000)
         }, 5000)
     },
     actions: {
@@ -86,6 +88,7 @@ export const store = new Vuex.Store({
                     const info = payload
                     if (info.length === undefined){
                         console.log('empty')
+                        store.dispatch('LAST_ID')
                     }else{
                         console.log('not empty:', payload)
                         let oldInfo = store.getters.INFO
@@ -100,11 +103,16 @@ export const store = new Vuex.Store({
             },
         //получаем id последнего сообщения в store.info
         LAST_ID (context, payload){
-                const   msgs = store.getters.INFO,
-                        lastInMsgs = msgs.length - 1,
-                        lastMsg = msgs[lastInMsgs]
+            const msgs = store.getters.INFO
+            if(msgs.length !== 0) {
+                const lastInMsgs = msgs.length - 1
+                const lastMsg = msgs[lastInMsgs]
                 payload = lastMsg.id
                 context.commit('set_lastMsgId', payload)
+            }else{
+                payload = 0
+                context.commit('set_lastMsgId', payload)
+            }
         },
         //отправка сообщения
         SEND_INFO: async (context, sendInfo) => {
