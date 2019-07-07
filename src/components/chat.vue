@@ -58,13 +58,11 @@
                 if(!this.msg || !this.$store.getters.EMAIL || !this.$store.getters.CHANNELID){
                     console.log('Error: message/email not found')
                     e.preventDefault()
-                    this.scrollToEnd()
                 }else{
                     this.$store.dispatch('SEND_INFO', sendInfo)
                     console.log(sendInfo)
                     this.msg = ''
                     e.preventDefault()
-                    this.scrollToEnd()
                 }
                 e.preventDefault()
             },
@@ -72,6 +70,9 @@
                 const window = this.$el.querySelector("#chat-window");
                 window.scrollTop = window.scrollHeight;
             }
+        },
+        updated: function () {
+            this.scrollToEnd();
         },
         computed: {
             infoList() {

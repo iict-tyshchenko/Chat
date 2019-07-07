@@ -7,12 +7,6 @@ const BASE_URI = "http://gitlab.nii-ikt.ru:30080"
 const GET_MSG_URI = `${BASE_URI}/msg_get`
 const SEND_MSG_URI = `${BASE_URI}/msg_post`
 
-window.onload = function() {
-    var timer = setInterval(function() {
-        store.dispatch('LOADING_MSG')
-    }, 5000);
-};
-
 export const store = new Vuex.Store({
     state: {
         email: 'email@email.com',
@@ -61,6 +55,11 @@ export const store = new Vuex.Store({
         LASTMSGID: state => {
             return state.lastMsgId
         },
+    },
+    created: {
+        timer: setInterval(function() {
+            store.dispatch('LOADING_MSG')
+        }, 5000)
     },
     actions: {
         //Получение последних 20 сбщ при авторизации
