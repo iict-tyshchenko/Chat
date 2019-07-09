@@ -1,5 +1,4 @@
 <template>
-    <div id="modal" class="overlay" v-if="this.$store.getters.SHOWMODAL">
         <div class="modal-backdrop">
             <div class="modall" ref="modal">
                 <div class="modal-head">
@@ -36,12 +35,11 @@
                 </div>
             </div>
         </div>
-    </div>
 </template>
 
 <script>
     export default {
-        name: "modal",
+        name: "entrance",
         data() {
             return {
                 errors: [],
@@ -78,7 +76,7 @@
                 }
                 if(!this.errors.length){
                     this.label = 'Email'
-                    this.$store.commit('set_showModal', false)
+                    //this.$store.commit('set_showModal', false)
                     i.preventDefault()
                 }
                 i.preventDefault();
@@ -96,7 +94,6 @@
         background-color: #D9D9D9 !important;
         display: grid;
         grid-template-columns: 1fr 500px 1fr;
-
     }
     .modall {
         background-color: #FFFFFF !important;

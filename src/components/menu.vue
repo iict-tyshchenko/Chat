@@ -1,7 +1,7 @@
 <template>
     <div class="menu" id="menu">
         <div class="menu-head" >
-            <button type="button" class="fas fa-sign-out-alt fa-lg exit" @click="exit()" ></button>
+            <button type="button" class="fas fa-sign-out-alt fa-lg exit" ></button>
             <input type="text" class=" text-dark search" placeholder="Search" v-model="number">
         </div>
         <div class="menu-contacts" >
@@ -43,9 +43,9 @@
             }
         },
         methods:{
-            exit(){
+/*            exit(){
                 this.$store.commit('set_showModal', true)
-            },
+            },*/
             reSelectChannel(number){
                 this.$store.commit('set_channelId', number)
                 this.$store.dispatch('GET_INFO')

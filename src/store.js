@@ -9,19 +9,15 @@ const SEND_MSG_URI = `${BASE_URI}/msg_post`
 
 export const store = new Vuex.Store({
     state: {
-        email: 'email@email.com',
+        email: 'email2@email.com',
         channelId: '1',
         info: [],
-        lastMsgId: '123123123',
-        showModal: false,
+        lastMsgId: ' ',
         errored: false,
     },
     mutations: {
         set_errored: (state, payload) =>{
             state.errored = payload
-        },
-        set_showModal: (state, payload) =>{
-            state.showModal = payload
         },
         set_email: (state, payload) => {
             state.email = payload
@@ -39,9 +35,6 @@ export const store = new Vuex.Store({
     getters: {
         ERRORED: state => {
             return state.errored
-        },
-        SHOWMODAL: state => {
-          return state.showModal
         },
         EMAIL: state => {
             return state.email

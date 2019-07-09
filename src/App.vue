@@ -1,31 +1,45 @@
 <template>
-  <div id="app">
-    <Modal/>
+  <div id="apps">
+<!--
+    <entrance/>
+-->
     <Menu/>
     <Chat/>
-    <!--<img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>-->
+    <router-view></router-view>
   </div>
 </template>
 
 <script>
-import Modal from './components/modal.vue'
+
+//import Entrance from './components/entrance.vue'
 import Menu from './components/menu.vue'
 import Chat from './components/chat.vue'
 
+import Vue from 'vue'
+import VueRouter from 'vue-router'
+import Entrance from './components/entrance.vue'
+Vue.use(VueRouter)
+const routes = [
+  { path: '/entrance', component: Entrance }
+]
+const router = new VueRouter({
+  routes
+})
+
 export default {
-  name: 'app',
-  components: {
-    Modal,
-    Menu,
-    Chat
-  }
+    name: 'app',
+  router,
+    components: {
+        //Entrance,
+        Menu,
+        Chat
+    }
 }
 </script>
 
 <style>
 
- #app {
+ #apps {
     margin: 0;
     display: grid;
     grid-template-columns: 250px 1fr;
