@@ -28,7 +28,6 @@
         data() {
             return {
                 number: '',
-                isModalVisible: 'true',
                 channels: [
                     {title: '1st channel', number: '1'},
                     {title: '2nd channel', number: '2'},
