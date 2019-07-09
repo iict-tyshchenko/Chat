@@ -2,7 +2,7 @@
     <div class="land" id="chat">
     <div class="menu">
         <div class="menu-head" >
-            <button type="button" class="fas fa-sign-out-alt fa-lg exit" ></button>
+            <button type="button" class="fas fa-sign-out-alt fa-lg exit" @click="exit()"></button>
             <input type="text" class=" text-dark search" placeholder="Search" v-model="number">
         </div>
         <div class="menu-contacts" >
@@ -106,9 +106,9 @@
                 const window = this.$el.querySelector("#chat-window");
                 window.scrollTop = window.scrollHeight;
             },
-            /*            exit(){
-                this.$store.commit('set_showModal', true)
-            },*/
+            exit(){
+                this.$router.push('entrance')
+            },
             reSelectChannel(number){
                 this.$store.commit('set_channelId', number)
                 this.$store.dispatch('GET_INFO')
@@ -118,10 +118,12 @@
             this.scrollToEnd();
         },
         computed: {
+            //список сообщений
             infoList() {
                 return this.$store.getters.INFO
             },
-            filteredList(){ //поиск чата в меню
+            //поиск чата в меню
+            filteredList(){
                 var comp = this.number;
                 return this.channels.filter(function (elem) {
                     let el = elem.number.toLowerCase();
@@ -171,7 +173,6 @@
         box-shadow: none;
         height: 35px;
         align-self: center;
-        border-radius: 3px;
         outline:none !important;
         cursor: pointer;
     }
@@ -224,7 +225,6 @@
         align-self: start;
         margin: inherit;
         font-size: 12px;
-
     }
     a{
         display: block;

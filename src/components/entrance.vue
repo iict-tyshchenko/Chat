@@ -76,13 +76,13 @@
                 }
                 if(!this.errors.length){
                     this.label = 'Email'
-                    //this.$store.commit('set_showModal', false)
+                    this.$router.push('/')
                     i.preventDefault()
                 }
                 i.preventDefault();
             },
             validEmail(email) {
-                var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+                const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
                 return re.test(email)
             }
         }
@@ -117,6 +117,5 @@
     }
     .form-row{
         position: center;
-
     }
 </style>
