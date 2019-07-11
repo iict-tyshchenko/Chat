@@ -1,10 +1,10 @@
 <template>
-        <div class="modal-backdrop">
-            <div class="modall" ref="modal">
-                <div class="modal-head">
+        <div class="entrance-background">
+            <div class="entrance">
+                <div class="entrance-head">
                     <i class="fas fa-comments" ></i>
                 </div>
-                <div class="modal-body">
+                <div class="entrance-body">
                     <form novalidate="true" @submit="checkForm">
                         <div class="form-row ">
                             <div class="col-8">
@@ -90,19 +90,20 @@
 </script>
 
 <style>
-    .modal-backdrop {
+    .entrance-background {
         background-color: #D9D9D9 !important;
         display: grid;
         grid-template-columns: 1fr 500px 1fr;
+        height: 100vh;
     }
-    .modall {
+    .entrance {
         background-color: #FFFFFF !important;
         grid-column-start: 2;
         display: grid;
         grid-template-columns: 1fr;
         grid-template-rows: 50px 1fr 1fr 50px;
     }
-    .modal-head{
+    .entrance-head{
         grid-area: 2 / 1 / 2 / 1;
         align-self: center;
         justify-self: center;
@@ -111,7 +112,7 @@
         font-size: 125px;
         color: #3D87FF;
     }
-    .modal-body{
+    .entrance-body{
         grid-area: 3 / 1 / 3 / 1;
         justify-self: center;
     }

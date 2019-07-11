@@ -6,7 +6,7 @@
             <input type="text" class=" text-dark search" placeholder="Search" v-model="number">
         </div>
         <div class="menu-contacts" >
-            <a v-for="channel in filteredList">
+            <a v-for="channel in channelList">
                 <div class="channelBubble" @click="reSelectChannel(channel.number)">
                     <svg class="channelBubbleAvatar">
                         <circle cx="30" cy="30" r="25" fill="#D9D9D9"/>
@@ -23,10 +23,10 @@
     </div>
     <div class="chat">
         <div class="chat-head">
-            <p class="channelNumberInHead"> Channel: {{ setChannel() }} </p> <!--наверно, так лучше, чем вызывать напрямую из store. не уверен корректно ли вызывать метод таким образом.-->
+            <p class="channelNumberInHead"> Channel: {{ channel }} </p>
         </div>
         <div class="chat-window" id="chat-window">
-            <div class="getError" v-if="erroredInChat()">
+            <div class="getError" v-if="errored">
                 <p class="error">We're sorry, we're not able to retrieve this information at the moment, please try back later</p>
             </div>
             <div v-for="item in infoList" >
@@ -79,23 +79,17 @@
             }
         },
         methods: {
-            erroredInChat(){
-                return this.$store.getters.ERRORED
-            },
-            setChannel(){
-                return this.$store.getters.CHANNELID
-            },
             send(e){
                 const sendInfo = {
                     login: this.$store.getters.EMAIL,
-                    channel_id: this.setChannel(),
+                    channel_id: this.$store.getters.CHANNELID,
                     message: this.msg,
                 };
-                if(!this.msg || !this.$store.getters.EMAIL || !this.$store.getters.CHANNELID){
+                if(!this.msg || !this.login || !this.channel_id){
                     console.log('Error: message/email not found')
                     e.preventDefault()
                 }else{
-                    this.$store.dispatch('SEND_INFO', sendInfo)
+                    this.$store.dispatch('SEND_MSG', sendInfo)
                     console.log(sendInfo)
                     this.msg = ''
                     e.preventDefault()
@@ -111,19 +105,25 @@
             },
             reSelectChannel(number){
                 this.$store.commit('set_channelId', number)
-                this.$store.dispatch('GET_INFO')
+                this.$store.dispatch('GET_MSGS')
             }
         },
         updated: function () {
             this.scrollToEnd();
         },
         computed: {
+            errored(){
+                return this.$store.getters.ERRORED
+            },
+            channel(){
+                return this.$store.getters.CHANNELID
+            },
             //список сообщений
             infoList() {
-                return this.$store.getters.INFO
+                return this.$store.getters.MSGS
             },
             //поиск чата в меню
-            filteredList(){
+            channelList(){
                 var comp = this.number;
                 return this.channels.filter(function (elem) {
                     let el = elem.number.toLowerCase();
@@ -133,7 +133,7 @@
             }
         },
         mounted() {
-            this.$store.dispatch('GET_INFO')
+            this.$store.dispatch('GET_MSGS')
         },
     }
 
@@ -335,4 +335,6 @@
         left: -8px;
         top: 100%;
     }
+    ::-webkit-scrollbar{width:0px}
+    ::-webkit-scrollbar-thumb{border-radius:4px;-webkit-box-shadow:inset 0 0 0 0px #074AA2;}
 </style>

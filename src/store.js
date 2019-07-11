@@ -9,9 +9,9 @@ const SEND_MSG_URI = `${BASE_URI}/msg_post`
 
 export const store = new Vuex.Store({
     state: {
-        email: 'email2@email.com',
+        email: '',
         channelId: '1',
-        info: [],
+        msgs: [],
         lastMsgId: ' ',
         errored: false,
     },
@@ -25,8 +25,8 @@ export const store = new Vuex.Store({
         set_channelId: (state, payload) => {
             state.channelId = payload
         },
-        set_info: (state, payload) => {
-            state.info = payload
+        set_msgs: (state, payload) => {
+            state.msgs = payload
         },
         set_lastMsgId: (state, payload) => {
             state.lastMsgId = payload
@@ -42,8 +42,8 @@ export const store = new Vuex.Store({
         CHANNELID: state => {
             return state.channelId
         },
-        INFO: state => {
-            return state.info
+        MSGS: state => {
+            return state.msgs
         },
         LASTMSGID: state => {
             return state.lastMsgId
@@ -58,18 +58,17 @@ export const store = new Vuex.Store({
     },
     actions: {
         //Получение последних 20 сбщ при авторизации
-        GET_INFO: async (context, payload) => {
+        GET_MSGS: async (context, payload) => {
             await axios
                 .get(`${GET_MSG_URI}?type=0&channel_id=${store.getters.CHANNELID}`)
                 .then(response => {
                     payload = response.data
-                    console.log(payload)
                 })
                 .catch(error => {
-                    console.log('Get info:', error)
+                    console.log('Get msgs:', error)
                     context.commit('set_errored', true)
                 });
-            context.commit('set_info', payload)
+            context.commit('set_msgs', payload)
             store.dispatch('LAST_ID')
         },
         //подгрузка сообщений
@@ -80,13 +79,11 @@ export const store = new Vuex.Store({
                     payload = response.data
                     const info = payload
                     if (info.length === undefined){
-                        console.log('empty')
                         store.dispatch('LAST_ID')
                     }else{
-                        console.log('not empty:', payload)
-                        let oldInfo = store.getters.INFO
+                        let oldInfo = store.getters.MSGS
                         let newInfo = oldInfo.concat(payload)
-                        context.commit('set_info', newInfo)
+                        context.commit('set_msgs', newInfo)
                         store.dispatch('LAST_ID')
                     }
                 })
@@ -96,7 +93,7 @@ export const store = new Vuex.Store({
             },
         //получаем id последнего сообщения в store.info
         LAST_ID (context, payload){
-            const msgs = store.getters.INFO
+            const msgs = store.getters.MSGS
             if(msgs.length !== 0) {
                 const lastInMsgs = msgs.length - 1
                 const lastMsg = msgs[lastInMsgs]
@@ -108,11 +105,11 @@ export const store = new Vuex.Store({
             }
         },
         //отправка сообщения
-        SEND_INFO: async (context, sendInfo) => {
+        SEND_MSG: async (context, sendInfo) => {
             await axios
                 .post(`${SEND_MSG_URI}`, sendInfo)
                 .catch(error => {
-                    console.log(error)
+                    console.log('Send info:', error)
                 });
         },
     }
