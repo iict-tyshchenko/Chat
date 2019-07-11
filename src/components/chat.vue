@@ -111,6 +111,12 @@
         updated: function () {
             this.scrollToEnd();
         },
+        //проверяем залогинился ли пользователь
+        beforeMount(){
+            if(!this.$store.getters.EMAIL || !this.$store.getters.CHANNELID){
+                this.exit()
+            }
+        },
         computed: {
             errored(){
                 return this.$store.getters.ERRORED
