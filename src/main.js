@@ -6,6 +6,7 @@ import VueRouter from 'vue-router'
 
 import Entrance from './components/entrance.vue'
 import Chat from './components/chat.vue'
+import Menu from './components/settings.vue'
 
 Vue.use(VueRouter)
 
@@ -13,6 +14,7 @@ const router = new VueRouter({
     routes: [
         { path: '/entrance', component: Entrance },
         { path: '/', component: Chat },
+        { path: '/menu', component: Menu },
     ]
 })
 
