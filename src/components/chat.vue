@@ -1,8 +1,10 @@
 <template>
     <div class="backgroundChat" id="chat">
+    <transition name="slide-fade" >
     <keep-alive>
             <component v-bind:is="currentTabComponent"></component>
     </keep-alive>
+    </transition>
     <div class="chat">
         <div class="chat-head">
             <p class="channelNumberInHead"> Channel: {{ channel }} </p>
@@ -110,6 +112,14 @@
 </script>
 
 <style>
+    .slide-fade-enter-active {
+        transition: all .2s ease;
+    }
+    .slide-fade-enter, .slide-fade-leave-to {
+        transition: all .2s cubic-bezier(0.86, 0, 0.07, 1);
+        transform: translateX(-30px);
+        opacity: 0;
+    }
     .backgroundChat{
         margin: 0;
         display: grid;
