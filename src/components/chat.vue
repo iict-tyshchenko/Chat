@@ -1,7 +1,8 @@
 <template>
-    <div class="land" id="chat">
-        <contacts></contacts>
-<!--        <settings></settings>-->
+    <div class="backgroundChat" id="chat">
+    <keep-alive>
+            <component v-bind:is="currentTabComponent"></component>
+    </keep-alive>
     <div class="chat">
         <div class="chat-head">
             <p class="channelNumberInHead"> Channel: {{ channel }} </p>
@@ -37,7 +38,7 @@
             return {
                 msg: '',
                 bubble1: 'chat_bubble1',
-                bubble2: 'chat_bubble2'
+                bubble2: 'chat_bubble2',
             }
         },
         filters: {
@@ -87,6 +88,9 @@
             contacts: Contacts
         },
         computed: {
+            currentTabComponent: function () {
+                return this.$store.getters.MENUCOMPONENT
+            },
             errored(){
                 return this.$store.getters.ERRORED
             },
@@ -106,7 +110,7 @@
 </script>
 
 <style>
-    .land{
+    .backgroundChat{
         margin: 0;
         display: grid;
         grid-template-columns: 250px 1fr;

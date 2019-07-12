@@ -1,7 +1,7 @@
 <template>
     <div class="contacts-body">
         <div class="contacts-head" >
-            <button type="button" class="fas fa-align-justify fa-lg exit" @click="exit()"></button>
+            <button type="button" class="fas fa-align-justify fa-lg exit" @click="menuSettings()"></button>
             <input type="text" class=" text-dark search" placeholder="Search" v-model="number">
         </div>
         <div class="contacts-channels" >
@@ -43,6 +43,10 @@
             }
         },
         methods:{
+            menuSettings(){
+                const component = 'settings'
+                this.$store.commit('set_menuComponent', component)
+            },
             exit(){
                 this.$router.push('entrance')
             },

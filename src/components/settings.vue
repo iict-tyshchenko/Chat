@@ -1,7 +1,7 @@
 <template>
     <div class="settings-body">
         <div class="settings-head" >
-            <button type="button" class="fas fa-align-justify fa-lg back" ></button>
+            <button type="button" class="fas fa-align-justify fa-lg back" @click="menuContacts()"></button>
         </div>
 
         <div class="settings-params" >
@@ -12,7 +12,18 @@
 
 <script>
     export default {
-        name: "settings"
+        name: "settings",
+        data(){
+            return {
+
+            }
+        },
+        methods:{
+            menuContacts(){
+                const component = 'contacts'
+                this.$store.commit('set_menuComponent', component)
+            },
+        }
     }
 </script>
 

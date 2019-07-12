@@ -14,8 +14,12 @@ export const store = new Vuex.Store({
         msgs: [],
         lastMsgId: ' ',
         errored: false,
+        menuComponent: 'contacts'
     },
     mutations: {
+        set_menuComponent: (state, payload) => {
+            state.menuComponent = payload
+        },
         set_errored: (state, payload) =>{
             state.errored = payload
         },
@@ -33,6 +37,9 @@ export const store = new Vuex.Store({
         },
     },
     getters: {
+        MENUCOMPONENT: state => {
+            return state.menuComponent
+        },
         ERRORED: state => {
             return state.errored
         },
