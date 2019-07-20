@@ -1,7 +1,7 @@
 <template>
     <div class="contacts-body">
         <div class="contacts-head" >
-            <button type="button" class="fas fa-align-justify fa-lg exit" @click="menuSettings()"></button>
+            <button type="button" class="fas fa-align-justify fa-lg menuButton" @click="menuSettings()"></button>
             <input type="text" class=" text-dark search" placeholder="Search" v-model="number">
         </div>
         <div class="contacts-channels" >
@@ -47,9 +47,6 @@
                 const component = 'settings'
                 this.$store.commit('set_menuComponent', component)
             },
-            exit(){
-                this.$router.push('entrance')
-            },
             reSelectChannel(number){
                 this.$store.commit('set_channelId', number)
                 this.$store.dispatch('GET_MSGS')
@@ -88,7 +85,7 @@
         display: grid;
         grid-template-columns: 60px 1fr;
     }
-    .exit{
+    .menuButton{
         grid-column-start: 1;
         color: #3D87FF;
         background-color: transparent;

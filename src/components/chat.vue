@@ -1,9 +1,9 @@
 <template>
     <div class="backgroundChat" id="chat">
     <transition name="slide-fade" >
-    <keep-alive>
+        <keep-alive>
             <component v-bind:is="currentTabComponent"></component>
-    </keep-alive>
+        </keep-alive>
     </transition>
     <div class="chat">
         <div class="chat-head">

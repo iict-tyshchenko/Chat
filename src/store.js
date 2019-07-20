@@ -9,7 +9,7 @@ const SEND_MSG_URI = `${BASE_URI}/msg_post`
 
 export const store = new Vuex.Store({
     state: {
-        email: 'email@email.kz',
+        email: '',
         channelId: '1',
         msgs: [],
         lastMsgId: ' ',
